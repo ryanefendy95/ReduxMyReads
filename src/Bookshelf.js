@@ -3,8 +3,6 @@ import './App.css'
 import Book from './Book'
 
 export default class Bookshelf extends Component {
-    // moveToReading = this.props.onMoveToReading;
-    // moveToWant = this.props.onMoveToWant;
     moveBook = this.props.onMoveBook;
 
     render() {
@@ -22,8 +20,6 @@ export default class Bookshelf extends Component {
                                         style={{ width: 128, height: 193, backgroundImage: `url(${book.url})` }}
                                         book={book}
                                         value={this.props.value}
-                                        // onMoveToReading={this.moveToReading}
-                                        // onMoveToWant={this.moveToWant}
                                         onMoveBook={this.moveBook}
                                     />
                             ))
