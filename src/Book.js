@@ -24,7 +24,10 @@ import './App.css'
 
 export default class Book extends React.Component {
     constructor(props) {
-
+        super(props);
+        this.state = {
+            shelf: 0
+        }
     }
 
     handleChange() {
