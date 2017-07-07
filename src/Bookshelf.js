@@ -3,7 +3,7 @@ import './App.css'
 import Book from './Book'
 
 export default class Bookshelf extends Component {
-    // moveToReading = this.props.onMoveToReading;
+    moveToReading = this.props.onMoveToReading;
     handleChange = this.props.onChange;
 
     render() {
