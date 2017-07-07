@@ -20,6 +20,7 @@ export default class Bookshelf extends Component {
                                         style={{ width: 128, height: 193, backgroundImage: `url(${book.url})` }}
                                         onMoveToReading={this.moveToReading}
                                         book={book}
+                                        value={this.props.value}
                                     />
                             ))
                             ) : (

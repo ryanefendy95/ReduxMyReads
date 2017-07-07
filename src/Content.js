@@ -10,15 +10,14 @@ export default class Content extends Component {
             wantToRead: this.props.books,
             read: []
         };
-        this.moveToReading = this.moveToReading.bind(this);
+        this.moveWantToReading = this.moveWantToReading.bind(this);
     }
 
-    moveToReading(book) {
+    moveWantToReading(book) {
         // previous state
         this.setState((state) => ({
             currentlyReading: [...state.currentlyReading, book],
-            wantToRead: state.wantToRead.filter(b => b.title !== book.title),
-            read: state.wantToRead.filter(b => b.title !== book.title)
+            wantToRead: state.wantToRead.filter(b => b.title !== book.title)
         }))
     }
 
@@ -32,15 +31,19 @@ export default class Content extends Component {
                 <Bookshelf
                     title="Currently Reading"
                     books={this.state.currentlyReading}
+                    value="currentlyReading"
                 />
                 <Bookshelf
                     title="Want to Read"
                     books={this.state.wantToRead}
-                    onMoveToReading={this.moveToReading}
+                    onMoveToReading={this.moveWantToReading}
+                    value="wantToRead"
                 />
                 <Bookshelf
                     title="Read"
-                    books={this.state.read}/>
+                    books={this.state.read}
+                    value="read"
+                />
             </div>
         )
     }

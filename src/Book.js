@@ -2,6 +2,11 @@ import React from 'react'
 import './App.css'
 
 export default class Book extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {value : this.props.value}
+    }
+
     render() {
         return (
             <li>
@@ -9,7 +14,7 @@ export default class Book extends React.Component {
                     <div className="book-top">
                         <div className="book-cover" style={this.props.style}></div>
                         <div className="book-shelf-changer">
-                            <select onChange={() => this.props.onMoveToReading(this.props.book) }>
+                            <select value={this.state.value} onChange={() => this.props.onMoveToReading(this.props.book) }>
                                 <option value="none" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
