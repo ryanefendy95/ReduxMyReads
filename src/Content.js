@@ -10,10 +10,12 @@ export default class Content extends Component {
             wantToRead: this.props.books,
             read: []
         };
-        this.moveWantToReading = this.moveWantToReading.bind(this);
+        this.moveToReading = this.moveToReading.bind(this);
+        this.moveToWant = this.moveToWant.bind(this);
+        this.moveBook = this.moveBook.bind(this);
     }
 
-    moveWantToReading(book) {
+    moveToReading(book) {
         // previous state
         this.setState((state) => ({
             currentlyReading: [...state.currentlyReading, book],
@@ -21,8 +23,18 @@ export default class Content extends Component {
         }))
     }
 
-    handleChange(book) {
-        console.log(book);
+    moveToWant(book) {
+        this.setState((state) => ({
+            currentlyReading: state.currentlyReading.filter(b => b.title !== book.title),
+            wantToRead: [...state.wantToRead, book]
+        }))
+    }
+
+    moveBook(src, dest, book) {
+        this.setState((state) => ({
+            src: state[src].filter(b => b.title !== book.title),
+            dest: [...state[dest], book]
+         }))
     }
 
     render() {
@@ -32,17 +44,25 @@ export default class Content extends Component {
                     title="Currently Reading"
                     books={this.state.currentlyReading}
                     value="currentlyReading"
+                    // onMoveToReading={this.moveToReading}
+                    // onMoveToWant={this.moveToWant}
+                    onMoveBook={this.moveBook}
                 />
                 <Bookshelf
                     title="Want to Read"
                     books={this.state.wantToRead}
-                    onMoveToReading={this.moveWantToReading}
                     value="wantToRead"
+                    // onMoveToReading={this.moveToReading}
+                    // onMoveToWant={this.moveToWant}
+                    onMoveBook={this.moveBook}
                 />
                 <Bookshelf
                     title="Read"
                     books={this.state.read}
                     value="read"
+                    // onMoveToReading={this.moveToReading}
+                    // onMoveToWant={this.moveToWant}
+                    onMoveBook={this.moveBook}
                 />
             </div>
         )
