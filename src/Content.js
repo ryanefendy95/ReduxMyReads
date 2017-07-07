@@ -10,6 +10,7 @@ export default class Content extends Component {
             wantToRead: this.props.books,
             read: []
         };
+        this.moveToReading = this.moveToReading.bind(this);
     }
 
     moveToReading(book) {
@@ -35,7 +36,6 @@ export default class Content extends Component {
                 <Bookshelf
                     title="Want to Read"
                     books={this.state.wantToRead}
-                    onChange={this.handleChange}
                     onMoveToReading={this.moveToReading}
                 />
                 <Bookshelf

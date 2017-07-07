@@ -4,7 +4,6 @@ import Book from './Book'
 
 export default class Bookshelf extends Component {
     moveToReading = this.props.onMoveToReading;
-    handleChange = this.props.onChange;
 
     render() {
         return (
@@ -19,8 +18,8 @@ export default class Bookshelf extends Component {
                                         title={book.title}
                                         authors={book.authors}
                                         style={{ width: 128, height: 193, backgroundImage: `url(${book.url})` }}
-                                        //onMoveToReading={this.moveToReading}
-                                        onChange={this.handleChange}
+                                        onMoveToReading={this.moveToReading}
+                                        book={book}
                                     />
                             ))
                             ) : (
