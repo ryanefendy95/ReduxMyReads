@@ -2,10 +2,6 @@ import React from 'react'
 import './App.css'
 
 export default class Book extends React.Component {
-    handleChange() {
-        console.log('change...');
-    }
-
     render() {
         return (
             <li>
@@ -13,7 +9,7 @@ export default class Book extends React.Component {
                     <div className="book-top">
                         <div className="book-cover" style={this.props.style}></div>
                         <div className="book-shelf-changer">
-                            <select onChange={this.handleChange }>
+                            <select onChange={() => this.props.onChange(this) }>
                                 <option value="none" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
