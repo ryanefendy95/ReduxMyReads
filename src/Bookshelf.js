@@ -17,7 +17,7 @@ export default class Bookshelf extends Component {
                                         key={i}
                                         title={book.title}
                                         authors={book.authors}
-                                        style={{ width: 128, height: 193, backgroundImage: `url(${book.url})` }}
+                                        style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}
                                         book={book}
                                         value={this.props.value}
                                         onMoveBook={this.moveBook}

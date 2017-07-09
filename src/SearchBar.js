@@ -1,10 +1,11 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import './App.css'
 
 export const SearchBar = (props) => {
     return (
         <div className="search-books-bar">
-            <a className="close-search" onClick={() => props.onClick()}>Close</a>
+            <Link className="close-search" to="/">Close</Link>
             <div className="search-books-input-wrapper">
                 <input type="text" placeholder="Search by title or author"/>
             </div>
