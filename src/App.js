@@ -15,7 +15,7 @@ export default class BooksApp extends Component {
             currentlyReading: [],
             wantToRead: [],
             read: [],
-            none: []
+            search: []
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
     }
@@ -36,7 +36,7 @@ export default class BooksApp extends Component {
 
     handleSearch(term) {
         BooksAPI.search(term).then((books) => this.setState({
-            none: books
+            search: books
         }))
     }
 
@@ -73,7 +73,7 @@ export default class BooksApp extends Component {
                                 onSearch={(term) => this.handleSearch(term)}
                             />
                             <SearchResult
-                                books={this.state.none}
+                                books={this.state.search}
                                 onMoveBook={this.handleMoveBook}
                             />
                         </div>
