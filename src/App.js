@@ -41,14 +41,14 @@ export default class BooksApp extends Component {
     }
 
     componentDidMount() {
-        // BooksAPI.getAll().then((books) => this.setState({
-        //     none: books
-        // }))
-        this.handleSearch('Art');
+        BooksAPI.getAll().then((books) => {
+            this.setState({wantToRead: books})
+        });
+        // this.handleSearch('Art');
     }
 
     render() {
-        BooksAPI.update('nggnmAEACAAJ', 'wantToRead').then(response => console.log(response));
+        // BooksAPI.update('nggnmAEACAAJ', 'wantToRead').then(response => console.log(response));
 
         return (
             <BrowserRouter>
