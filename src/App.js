@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import {Title} from './Title'
 import {Search} from './Search'
-import Content from './Content'
-import {SearchGrid} from './SearchGrid'
+import {Content} from './Content'
+import {SearchBar} from './SearchBar'
+import {SearchResult} from './SearchResult'
 import './App.css'
 
 class BooksApp extends Component {
@@ -59,6 +60,7 @@ class BooksApp extends Component {
             search: []
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick() {
@@ -89,19 +91,8 @@ class BooksApp extends Component {
             <div className="app">
                 {this.state.showSearchPage ? (
                     <div className="search-books">
-                        <div className="search-books-bar">
-                            <a className="close-search" onClick={() => this.setState({showSearchPage: false})}>Close</a>
-                            <div className="search-books-input-wrapper">
-                                <input type="text" placeholder="Search by title or author"/>
-                            </div>
-                        </div>
-                        <div className="search-books-results">
-                            <ol className="books-grid">
-                                <SearchGrid
-                                    books={this.state.search}
-                                />
-                            </ol>
-                        </div>
+                        <SearchBar onClick={this.handleClick}/>
+                        <SearchResult books={this.state.search}/>
                     </div>
                 ) : (
                     <div className="list-books">
