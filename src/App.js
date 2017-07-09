@@ -3,6 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import {Title} from './Title'
 import {Search} from './Search'
 import Content from './Content'
+import {SearchGrid} from './SearchGrid'
 import './App.css'
 
 class BooksApp extends Component {
@@ -15,7 +16,7 @@ class BooksApp extends Component {
              * users can use the browser's back and forward buttons to navigate between
              * pages, as well as provide a good URL they can bookmark and share.
              */
-            showSearchPage: false,
+            showSearchPage: true,
             currentlyReading: [],
             wantToRead: [
                 {
@@ -55,7 +56,7 @@ class BooksApp extends Component {
                 },
             ],
             read: [],
-            others: []
+            search: []
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
     }
@@ -78,12 +79,12 @@ class BooksApp extends Component {
 
     componentDidMount() {
         BooksAPI.getAll().then((books) => this.setState({
-            others: books
+            search: books
         }))
     }
 
     render() {
-        console.log(this.state.others);
+        console.log(this.state.search);
         return (
             <div className="app">
                 {this.state.showSearchPage ? (
@@ -95,7 +96,11 @@ class BooksApp extends Component {
                             </div>
                         </div>
                         <div className="search-books-results">
-                            <ol className="books-grid"></ol>
+                            <ol className="books-grid">
+                                <SearchGrid
+                                    books={this.state.search}
+                                />
+                            </ol>
                         </div>
                     </div>
                 ) : (
