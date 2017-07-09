@@ -3,7 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import {Title} from './Title'
 import {Search} from './Search'
 import {Content} from './Content'
-import {SearchBar} from './SearchBar'
+import SearchBar from './SearchBar'
 import {SearchResult} from './SearchResult'
 import './App.css'
 import {BrowserRouter, Route} from 'react-router-dom'
@@ -12,12 +12,6 @@ export default class BooksApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            /**
-             * TODO: Instead of using this state variable to keep track of which page
-             * we're on, use the URL in the browser's address bar. This will ensure that
-             * users can use the browser's back and forward buttons to navigate between
-             * pages, as well as provide a good URL they can bookmark and share.
-             */
             currentlyReading: [],
             wantToRead: [],
             read: [],
@@ -34,17 +28,28 @@ export default class BooksApp extends Component {
         newState[src] = newState[src].filter(b => b.title !== book.title);
         newState[dest] = [...newState[dest], book];
 
+        // BooksAPI.update()
+
         // set state to newState
         this.setState(newState);
     }
 
-    componentDidMount() {
-        BooksAPI.getAll().then((books) => this.setState({
+    handleSearch(term) {
+        BooksAPI.search(term).then((books) => this.setState({
             none: books
         }))
     }
 
+    componentDidMount() {
+        // BooksAPI.getAll().then((books) => this.setState({
+        //     none: books
+        // }))
+        this.handleSearch('Art');
+    }
+
     render() {
+        BooksAPI.update('nggnmAEACAAJ', 'wantToRead').then(response => console.log(response));
+
         return (
             <BrowserRouter>
                 <div className="app">
@@ -64,7 +69,9 @@ export default class BooksApp extends Component {
                     )}/>
                     <Route exact path="/search" render={() => (
                         <div className="search-books">
-                            <SearchBar />
+                            <SearchBar
+                                onSearch={(term) => this.handleSearch(term)}
+                            />
                             <SearchResult
                                 books={this.state.none}
                                 onMoveBook={this.handleMoveBook}

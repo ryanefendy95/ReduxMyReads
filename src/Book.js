@@ -9,19 +9,7 @@ export default class Book extends React.Component {
     }
 
     handleChange(event) {
-        switch (event.target.value) {
-            case 'currentlyReading':
-                this.props.onMoveBook(this.state.value, event.target.value, this.props.book);
-                break;
-            case 'wantToRead':
-                this.props.onMoveBook(this.state.value, event.target.value, this.props.book);
-                break;
-            case 'read':
-                this.props.onMoveBook(this.state.value, event.target.value, this.props.book);
-                break;
-            default:
-                break;
-        }
+        this.props.onMoveBook(this.state.value, event.target.value, this.props.book);
     }
 
     render() {

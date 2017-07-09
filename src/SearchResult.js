@@ -3,6 +3,10 @@ import Book from './Book'
 import './App.css'
 
 export const SearchResult = (props) => {
+    if(!props.books) {
+        return <div>Loading...</div>
+    }
+
     const bookList = props.books.map((book, i) => {
         return (
             <Book
