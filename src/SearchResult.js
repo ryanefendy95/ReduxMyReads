@@ -11,11 +11,7 @@ export const SearchResult = (props) => {
         return (
             <Book
                 key={i}
-                title={book.title}
-                authors={book.authors}
-                style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}
                 book={book}
-                value="none"
                 onMoveBook={props.onMoveBook}
             />
         )

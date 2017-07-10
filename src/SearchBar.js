@@ -21,7 +21,8 @@ export default class SearchBar extends Component {
                     <input
                         type="text"
                         placeholder="Search by title or author"
-                        onChange={event => this.onInputChange(event.target.value)}/>
+                        onChange={event => this.onInputChange(event.target.value)}
+                    />
                 </div>
             </div>
         )

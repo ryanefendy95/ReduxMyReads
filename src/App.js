@@ -12,43 +12,45 @@ export default class BooksApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentlyReading: [],
-            wantToRead: [],
-            read: [],
-            search: []
+            books: []
         };
+        this.currentlyReading = [];
+        this.wantToRead = [];
+        this.readAlready = [];
+        this.none = [];
         this.handleMoveBook = this.handleMoveBook.bind(this);
     }
 
-    handleMoveBook(src, dest, book) {
-        // create a new object reference for state
-        let newState = Object.assign({}, this.state);
-
-        // modify state contents by key
-        newState[src] = newState[src].filter(b => b.title !== book.title);
-        newState[dest] = [...newState[dest], book];
-
-        // BooksAPI.update()
-
-        // set state to newState
-        this.setState(newState);
+    handleMoveBook(book, shelf) {
+        BooksAPI.update(book, shelf).then(
+            this.setState((state) => ({
+                state : state.books.map(b => {
+                    if (b.id === book.id) b.shelf = shelf;
+                })
+            }))
+        )
     }
 
     handleSearch(term) {
-        BooksAPI.search(term).then((books) => this.setState({
-            search: books
-        }))
+        BooksAPI.search(term).then((books) => {
+            this.setState((prevState) => ({
+                books: Array.from(new Set([...prevState.books, ...books])),
+            }));
+
+        })
     }
 
     componentDidMount() {
         BooksAPI.getAll().then((books) => {
-            this.setState({wantToRead: books})
+            this.setState({books});
         });
-        // this.handleSearch('Art');
     }
 
     render() {
-        // BooksAPI.update('nggnmAEACAAJ', 'wantToRead').then(response => console.log(response));
+        this.currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
+        this.wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
+        this.readAlready = this.state.books.filter(book => book.shelf === 'read');
+        this.none = this.state.books.filter(book => book.shelf === 'none');
 
         return (
             <BrowserRouter>
@@ -57,14 +59,12 @@ export default class BooksApp extends Component {
                         <div className="list-books">
                             <Title/>
                             <Content
-                                currentlyReading={this.state.currentlyReading}
-                                wantToRead={this.state.wantToRead}
-                                read={this.state.read}
+                                currentlyReading={this.currentlyReading}
+                                wantToRead={this.wantToRead}
+                                readAlready={this.readAlready}
                                 onMoveBook={this.handleMoveBook}
                             />
-                            <Search
-                                books={this.state.others}
-                            />
+                            <Search/>
                         </div>
                     )}/>
                     <Route exact path="/search" render={() => (
@@ -73,7 +73,7 @@ export default class BooksApp extends Component {
                                 onSearch={(term) => this.handleSearch(term)}
                             />
                             <SearchResult
-                                books={this.state.search}
+                                books={this.none}
                                 onMoveBook={this.handleMoveBook}
                             />
                         </div>

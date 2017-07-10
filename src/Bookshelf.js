@@ -11,15 +11,11 @@ export default class Bookshelf extends Component {
                 <h2 className="bookshelf-title">{this.props.title}</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {this.props.books.length !== 0 ? (
+                        {this.props.books ? (
                             this.props.books.map((book, i) => (
                                     <Book
                                         key={i}
-                                        title={book.title}
-                                        authors={book.authors}
-                                        style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}
                                         book={book}
-                                        value={this.props.value}
                                         onMoveBook={this.moveBook}
                                     />
                             ))

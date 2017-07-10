@@ -9,21 +9,18 @@ export const Content = (props) => {
             <Bookshelf
                 title="Currently Reading"
                 books={props.currentlyReading}
-                value="currentlyReading"
                 onMoveBook={props.onMoveBook}
             />
             <Bookshelf
                 title="Want to Read"
                 books={props.wantToRead}
-                value="wantToRead"
                 onMoveBook={props.onMoveBook}
             />
             <Bookshelf
                 title="Read"
-                books={props.read}
-                value="read"
+                books={props.readAlready}
                 onMoveBook={props.onMoveBook}
             />
         </div>
     )
-}
+};

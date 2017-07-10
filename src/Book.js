@@ -4,22 +4,24 @@ import './App.css'
 export default class Book extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value : this.props.value};
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
-        this.props.onMoveBook(this.state.value, event.target.value, this.props.book);
+        this.props.onMoveBook(this.props.book, event.target.value);
     }
 
     render() {
+        let book = this.props.book;
         return (
             <li>
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={this.props.style}></div>
+                        <div className="book-cover"
+                             style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}>
+                        </div>
                         <div className="book-shelf-changer">
-                            <select value={this.state.value} onChange={this.handleChange}>
+                            <select value={book.shelf} onChange={this.handleChange}>
                                 <option value="none" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
@@ -28,8 +30,8 @@ export default class Book extends React.Component {
                             </select>
                         </div>
                     </div>
-                    <div className="book-title">{this.props.title}</div>
-                    <div className="book-authors">{this.props.authors}</div>
+                    <div className="book-title">{book.title}</div>
+                    <div className="book-authors">{book.authors}</div>
                 </div>
             </li>
         )
