@@ -18,21 +18,36 @@ export default class BooksApp extends Component {
         this.currentlyReading = [];
         this.wantToRead = [];
         this.readAlready = [];
-        this.none = [];
+        this.search = [];
         this.handleMoveBook = this.handleMoveBook.bind(this);
     }
 
     handleMoveBook(book, shelf) {
+            BooksAPI.update(book, shelf).then(
+                this.setState(state => ({
+                    state : state.books.map(b => {
+                        if (b.id === book.id) b.shelf = shelf;
+                        return b;
+                    })
+                }))
+            )
+
+        /*
         BooksAPI.update(book, shelf).then(
-            this.setState((state) => ({
-                state : state.books.map(b => {
-                    if (b.id === book.id) b.shelf = shelf;
-                })
+            this.setState(state => ({
+                state : state.books.reduce((newState, b) => {
+                    if (shelf !== "none") {
+                        if (b.id === book.id) b.shelf = shelf;
+                        newState.push(b);
+                    }
+                }, [])
             }))
         )
+        */
     }
 
     handleSearch(term) {
+        //todo prevent empty search
         BooksAPI.search(term).then((books) => {
             this.setState((prevState) => ({
                 books: Array.from(new Set([...prevState.books, ...books])),
@@ -51,7 +66,7 @@ export default class BooksApp extends Component {
         this.currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
         this.wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
         this.readAlready = this.state.books.filter(book => book.shelf === 'read');
-        this.none = this.state.books.filter(book => book.shelf === 'none');
+        this.search = this.state.books.filter(book => book.shelf === 'search');
         const bookSearch = _.debounce((term) => {this.handleSearch(term)}, 300);
 
         return (
@@ -75,7 +90,7 @@ export default class BooksApp extends Component {
                                 onSearch={bookSearch}
                             />
                             <SearchResult
-                                books={this.none}
+                                books={this.search}
                                 onMoveBook={this.handleMoveBook}
                             />
                         </div>
