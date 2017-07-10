@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import {Title} from './Title'
@@ -51,6 +52,7 @@ export default class BooksApp extends Component {
         this.wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
         this.readAlready = this.state.books.filter(book => book.shelf === 'read');
         this.none = this.state.books.filter(book => book.shelf === 'none');
+        const bookSearch = _.debounce((term) => {this.handleSearch(term)}, 300);
 
         return (
             <BrowserRouter>
@@ -70,7 +72,7 @@ export default class BooksApp extends Component {
                     <Route exact path="/search" render={() => (
                         <div className="search-books">
                             <SearchBar
-                                onSearch={(term) => this.handleSearch(term)}
+                                onSearch={bookSearch}
                             />
                             <SearchResult
                                 books={this.none}
