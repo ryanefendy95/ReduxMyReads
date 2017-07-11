@@ -1,6 +1,6 @@
 import React from 'react'
 import {Book} from './Book'
-import './App.css'
+import '../containers/App.css'
 
 export const SearchResult = (props) => {
     if(!props.books) {

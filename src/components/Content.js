@@ -1,6 +1,6 @@
 import React from 'react'
 import {Bookshelf} from './Bookshelf'
-import './App.css'
+import '../containers/App.css'
 
 export const Content = (props) => {
     // todo: how to refactor to be dynamic
