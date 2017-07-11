@@ -3,7 +3,7 @@ import {Book} from './Book'
 import '../containers/App.css'
 
 export const SearchResult = (props) => {
-    if(!props.books) {
+    if (!props.books) {
         return <div>Loading...</div>
     }
 

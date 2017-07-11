@@ -23,22 +23,9 @@ export default class BooksApp extends Component {
     }
 
     handleMoveBook(book, shelf) {
-        /*
-            BooksAPI.update(book, shelf).then(
-                this.setState(state => ({
-                    books : state.books.filter(b => {
-                        if (shelf === "none") {if (b.id !== book.id) return b}
-                        else {return b}
-                    }).map(b => {
-                        if (b.id === book.id) b.shelf = shelf;
-                        return b;
-                    })
-                }))
-            );
-        */
         BooksAPI.update(book, shelf).then(
             this.setState(state => ({
-                books : state.books.map(b => {
+                books: state.books.map(b => {
                     if (b.id === book.id) b.shelf = shelf;
                     return b;
                 })
@@ -67,7 +54,9 @@ export default class BooksApp extends Component {
         this.wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
         this.readAlready = this.state.books.filter(book => book.shelf === 'read');
         this.search = this.state.books.filter(book => book.shelf === 'none');
-        const bookSearch = _.debounce((term) => {this.handleSearch(term)}, 300);
+        const bookSearch = _.debounce((term) => {
+            this.handleSearch(term)
+        }, 300);
 
         return (
             <BrowserRouter>
