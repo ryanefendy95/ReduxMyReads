@@ -9,8 +9,12 @@ export default class SearchBar extends Component {
     }
 
     onInputChange(term) {
-        this.setState({term});
-        this.props.onSearch(term)
+        if(term) {
+            this.setState({term});
+            this.props.onSearch(term);
+        } else {
+            this.setState({term: ''});
+        }
     };
 
     render() {

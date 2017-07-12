@@ -13,31 +13,35 @@ export default class BooksApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            books: []
+            books: [], // books in shelves
+            search: [] // books returned from search
         };
-        this.currentlyReading = [];
-        this.wantToRead = [];
-        this.readAlready = [];
-        this.search = [];
         this.handleMoveBook = this.handleMoveBook.bind(this);
     }
 
     handleMoveBook(book, shelf) {
-        BooksAPI.update(book, shelf).then(
-            this.setState(state => ({
-                books: state.books.map(b => {
-                    if (b.id === book.id) b.shelf = shelf;
-                    return b;
-                })
-            }))
-        );
+        if (book.shelf !== shelf) {
+            BooksAPI.update(book, shelf).then(() => {
+                    // this.setState(state => ({
+                    //     books: state.books.map(b => {
+                    //         if (b.id === book.id) b.shelf = shelf;
+                    //         return b;
+                    //     })
+                    // }))
+                book.shelf = shelf;
+                this.setState(state => {
+                    // todo: need to fix
+                    books: state.books.filter(b => b.id !== book.id).concat([book])
+                })}
+            );
+        }
     }
 
     handleSearch(term) {
         //todo prevent empty search
         BooksAPI.search(term).then((books) => {
             this.setState((prevState) => ({
-                books: Array.from(new Set([...prevState.books, ...books])),
+                search: Array.from(new Set([...prevState.search, ...books])),
             }));
 
         })
@@ -50,10 +54,10 @@ export default class BooksApp extends Component {
     }
 
     render() {
-        this.currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
-        this.wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
-        this.readAlready = this.state.books.filter(book => book.shelf === 'read');
-        this.search = this.state.books.filter(book => book.shelf === 'none');
+        const currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
+        const wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
+        const readAlready = this.state.books.filter(book => book.shelf === 'read');
+        const search = this.state.books.filter(book => book.shelf === 'none');
         const bookSearch = _.debounce((term) => {
             this.handleSearch(term)
         }, 300);
@@ -65,9 +69,9 @@ export default class BooksApp extends Component {
                         <div className="list-books">
                             <Title/>
                             <Content
-                                currentlyReading={this.currentlyReading}
-                                wantToRead={this.wantToRead}
-                                readAlready={this.readAlready}
+                                currentlyReading={currentlyReading}
+                                wantToRead={wantToRead}
+                                readAlready={readAlready}
                                 onMoveBook={this.handleMoveBook}
                             />
                             <Search/>
@@ -79,7 +83,7 @@ export default class BooksApp extends Component {
                                 onSearch={bookSearch}
                             />
                             <SearchResult
-                                books={this.search}
+                                books={this.state.search}
                                 onMoveBook={this.handleMoveBook}
                             />
                         </div>
