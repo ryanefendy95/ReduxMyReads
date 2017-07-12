@@ -13,27 +13,21 @@ export default class BooksApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            books: [], // books in shelves
-            search: [] // books returned from search
+            books: []
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
     }
 
     handleMoveBook(book, shelf) {
         if (book.shelf !== shelf) {
-            BooksAPI.update(book, shelf).then(() => {
-                    // this.setState(state => ({
-                    //     books: state.books.map(b => {
-                    //         if (b.id === book.id) b.shelf = shelf;
-                    //         return b;
-                    //     })
-                    // }))
-                book.shelf = shelf;
-                this.setState(state => {
-                    // todo: need to fix
-                    books: state.books.filter(b => b.id !== book.id).concat([book])
-                })}
-            );
+            BooksAPI.update(book, shelf).then(
+                this.setState(state => ({
+                    books: state.books.map(b => {
+                        if (b.id === book.id) b.shelf = shelf;
+                        return b;
+                    })
+                }))
+            )
         }
     }
 
@@ -41,7 +35,7 @@ export default class BooksApp extends Component {
         //todo prevent empty search
         BooksAPI.search(term).then((books) => {
             this.setState((prevState) => ({
-                search: Array.from(new Set([...prevState.search, ...books])),
+                books: Array.from(new Set([...prevState.search, ...books])),
             }));
 
         })
@@ -83,7 +77,7 @@ export default class BooksApp extends Component {
                                 onSearch={bookSearch}
                             />
                             <SearchResult
-                                books={this.state.search}
+                                books={search}
                                 onMoveBook={this.handleMoveBook}
                             />
                         </div>
