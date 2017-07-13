@@ -14,25 +14,26 @@ export default class BooksApp extends Component {
         super(props);
         this.state = {
             books: [],
-            search: []
+            search: [],
+            term: ''
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        //todo fix this
+        this.handleSearch = _.debounce((term) => {
+            this.handleSearch(term)
+        }, 300);
     }
 
     handleMoveBook(book, shelf) {
         if (book.shelf !== shelf) {
-            BooksAPI.update(book, shelf).then(
+            BooksAPI.update(book, shelf).then(() => {
+                book.shelf = shelf;
                 this.setState(state => ({
-                    books: state.books.map(b => {
-                        if (b.id === book.id) b.shelf = shelf;
-                        return b;
-                    }),
-                    search: state.search.map(b => {
-                        if (b.id === book.id) b.shelf = shelf;
-                        return b;
-                    })
+                    books: state.books.filter(b => b.id !== book.id).concat([ book ])
                 }))
+                }
             )
         }
     }
@@ -44,6 +45,15 @@ export default class BooksApp extends Component {
             this.setState({search});
         })
     }
+
+    handleInputChange(term) {
+        if(term) {
+            this.setState({term});
+            this.handleSearch(term);
+        } else {
+            this.setState({term: ''});
+        }
+    };
 
     componentDidMount() {
         BooksAPI.getAll().then((books) => {
@@ -79,6 +89,8 @@ export default class BooksApp extends Component {
                         <div className="search-books">
                             <SearchBar
                                 onSearch={bookSearch}
+                                term={this.state.term}
+                                onInputChange={this.handleInputChange}
                             />
                             <SearchResult
                                 books={this.state.search}

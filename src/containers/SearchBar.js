@@ -8,14 +8,18 @@ export default class SearchBar extends Component {
         this.state = {term: ''};
     }
 
+    // onInputChange(term) {
+    //     if(term) {
+    //         this.setState({term: term.trim()});
+    //         this.props.onSearch(term.trim());
+    //     } else {
+    //         this.setState({term: ''});
+    //     }
+    // };
+
     onInputChange(term) {
-        if(term) {
-            this.setState({term});
-            this.props.onSearch(term);
-        } else {
-            this.setState({term: ''});
-        }
-    };
+        this.props.onInputChange(term);
+    }
 
     render() {
         return (
@@ -23,7 +27,7 @@ export default class SearchBar extends Component {
                 <Link className="close-search" to="/">Close</Link>
                 <div className="search-books-input-wrapper">
                     <input
-                        value={this.state.term}
+                        value={this.props.term}
                         type="text"
                         placeholder="Search by title or author"
                         onChange={event => this.onInputChange(event.target.value)}
@@ -33,3 +37,8 @@ export default class SearchBar extends Component {
         )
     }
 }
+
+// static propTypes = {
+//     booksOnShelf: PropTypes.array,
+//     onMoveBook: PropTypes.func.isRequired
+// }
