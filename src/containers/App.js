@@ -13,7 +13,8 @@ export default class BooksApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            books: []
+            books: [],
+            search: []
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -34,16 +35,9 @@ export default class BooksApp extends Component {
 
     handleSearch(term) {
         //todo prevent empty query
-        BooksAPI.search(term).then((books) => {
-            if (books.error) return;
-            this.setState(prevState => {
-                // todo fix this...
-                let newBooks = Array.from(new Set([...prevState.books, ...books]));
-                return {
-                    books: newBooks,
-                }
-            });
-
+        BooksAPI.search(term, 20).then((search) => {
+            if (search.error) return;
+            this.setState({search});
         })
     }
 
@@ -57,7 +51,7 @@ export default class BooksApp extends Component {
         const currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
         const wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
         const readAlready = this.state.books.filter(book => book.shelf === 'read');
-        const search = this.state.books.filter(book => book.shelf === 'none');
+        // const search = this.state.books.filter(book => book.shelf === 'none');
         const bookSearch = _.debounce((term) => {
             this.handleSearch(term)
         }, 300);
@@ -83,7 +77,7 @@ export default class BooksApp extends Component {
                                 onSearch={bookSearch}
                             />
                             <SearchResult
-                                books={search}
+                                books={this.state.search}
                                 onMoveBook={this.handleMoveBook}
                             />
                         </div>
