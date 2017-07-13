@@ -1,5 +1,6 @@
 import React from 'react'
 import '../containers/App.css'
+import PropTypes from 'prop-types'
 
 export const Book = (props) => {
 
@@ -31,4 +32,10 @@ export const Book = (props) => {
             </div>
         </li>
     )
+};
+
+Book.prototype = {
+    key: PropTypes.number,
+    book: PropTypes.object,
+    onMoveBook: PropTypes.func
 };

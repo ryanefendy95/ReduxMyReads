@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import './App.css'
+import PropTypes from 'prop-types'
 
 export const SearchBar = (props) => {
     return (
@@ -18,7 +19,8 @@ export const SearchBar = (props) => {
     )
 };
 
-// static propTypes = {
-//     booksOnShelf: PropTypes.array,
-//     onMoveBook: PropTypes.func.isRequired
-// }
+SearchBar.prototype = {
+    onSearch: PropTypes.func,
+    term: PropTypes.string,
+    onInputChange: PropTypes.func
+};

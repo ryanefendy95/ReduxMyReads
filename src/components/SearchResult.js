@@ -1,6 +1,7 @@
 import React from 'react'
 import {Book} from './Book'
 import '../containers/App.css'
+import PropTypes from 'prop-types'
 
 export const SearchResult = (props) => {
     if (!props.books) {
@@ -24,4 +25,9 @@ export const SearchResult = (props) => {
             </ol>
         </div>
     )
+};
+
+SearchResult.prototype = {
+    books: PropTypes.array,
+    onMoveBook: PropTypes.func
 };

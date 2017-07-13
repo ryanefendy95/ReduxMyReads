@@ -1,6 +1,7 @@
 import React from 'react'
 import {Bookshelf} from './Bookshelf'
 import '../containers/App.css'
+import PropTypes from 'prop-types'
 
 export const Content = (props) => {
     // todo: how to refactor to be dynamic
@@ -23,4 +24,11 @@ export const Content = (props) => {
             />
         </div>
     )
+};
+
+Content.prototype = {
+    currentlyReading: PropTypes.array,
+    wantToRead: PropTypes.array,
+    readAlready: PropTypes.array,
+    onMoveBook: PropTypes.func
 };
