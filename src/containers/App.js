@@ -37,7 +37,12 @@ export default class BooksApp extends Component {
     handleSearch(term) {
         BooksAPI.search(term, 20).then((search) => {
             if (search.error) return;
-            this.setState({search});
+            this.setState(state => ({
+                search: search.map(b => {
+                    state.books.find(book => book.id == b.id);
+                    return b
+                })
+            }));
         })
     }
 
