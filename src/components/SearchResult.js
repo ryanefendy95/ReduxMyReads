@@ -8,10 +8,10 @@ export const SearchResult = (props) => {
         return <div>Loading...</div>
     }
 
-    const bookList = props.books.map((book, i) => {
+    const bookList = props.books.map((book) => {
         return (
             <Book
-                key={i}
+                key={book.id}
                 book={book}
                 onMoveBook={props.onMoveBook}
             />

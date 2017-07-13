@@ -10,9 +10,9 @@ export const Bookshelf = (props) => {
             <div className="bookshelf-books">
                 <ol className="books-grid">
                     {props.books ? (
-                        props.books.map((book, i) => (
+                        props.books.map((book) => (
                             <Book
-                                key={i}
+                                key={book.id}
                                 book={book}
                                 onMoveBook={props.onMoveBook}
                             />

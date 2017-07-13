@@ -35,7 +35,7 @@ export const Book = (props) => {
 };
 
 Book.prototype = {
-    key: PropTypes.number,
+    key: PropTypes.string,
     book: PropTypes.object,
     onMoveBook: PropTypes.func
 };
