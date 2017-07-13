@@ -35,17 +35,29 @@ export default class BooksApp extends Component {
     }
 
     handleSearch(term) {
-        BooksAPI.search(term, 20).then((search) => {
-            if (search.error) return;
-            this.setState(state => ({
-                search: search.map(b => {
-                    state.books.find(book => {
-                        if (book.id === b.id) b.shelf = book.shelf;
-                    });
-                    return b
-                })
-            }));
-        })
+        BooksAPI.search(term, 20).then((searchResults) => {
+            if (searchResults.error) return;
+
+            this.setState(state => {
+                // create a new array called mergedBooks
+                const mergedBooks = searchResults.map(searchResult => {
+
+                    // grab the existing book from your library if it exists
+                    const existingBook = state.books.find(book => book.id === searchResult.id);
+
+                    // overwrite the search result shelf IF book exists
+                    if (existingBook) {
+                        searchResult.shelf = existingBook.shelf
+                    }
+
+                    // add the searchResult, modified or not, to the mergedBooks array
+                    return searchResult
+                });
+
+                // return a state object for setState
+                return { search: mergedBooks };
+            });
+        });
     }
 
     handleInputChange(term) {
