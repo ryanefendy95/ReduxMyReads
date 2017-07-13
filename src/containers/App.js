@@ -39,7 +39,9 @@ export default class BooksApp extends Component {
             if (search.error) return;
             this.setState(state => ({
                 search: search.map(b => {
-                    state.books.find(book => book.id == b.id);
+                    state.books.find(book => {
+                        if (book.id === b.id) b.shelf = book.shelf;
+                    });
                     return b
                 })
             }));
