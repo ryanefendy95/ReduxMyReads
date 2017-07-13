@@ -16,6 +16,7 @@ export default class BooksApp extends Component {
             books: []
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     handleMoveBook(book, shelf) {
@@ -32,11 +33,16 @@ export default class BooksApp extends Component {
     }
 
     handleSearch(term) {
-        //todo prevent empty search
+        //todo prevent empty query
         BooksAPI.search(term).then((books) => {
-            this.setState((prevState) => ({
-                books: Array.from(new Set([...prevState.search, ...books])),
-            }));
+            if (books.error) return;
+            this.setState(prevState => {
+                // todo fix this...
+                let newBooks = Array.from(new Set([...prevState.books, ...books]));
+                return {
+                    books: newBooks,
+                }
+            });
 
         })
     }
