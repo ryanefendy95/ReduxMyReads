@@ -25,10 +25,10 @@ export default class BooksApp extends Component {
     handleMoveBook(book, shelf) {
         if (book.shelf !== shelf) {
             BooksAPI.update(book, shelf).then(() => {
-                book.shelf = shelf;
-                this.setState(state => ({
-                    books: state.books.filter(b => b.id !== book.id).concat([ book ])
-                }))
+                    book.shelf = shelf;
+                    this.setState(state => ({
+                        books: state.books.filter(b => b.id !== book.id).concat([book])
+                    }))
                 }
             )
         }
@@ -42,7 +42,7 @@ export default class BooksApp extends Component {
     }
 
     handleInputChange(term) {
-        if(term) {
+        if (term) {
             this.setState({term});
             this.handleSearch(term);
         } else {

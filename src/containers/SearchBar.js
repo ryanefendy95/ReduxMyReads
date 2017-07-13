@@ -12,7 +12,7 @@ export const SearchBar = (props) => {
                     value={props.term}
                     type="text"
                     placeholder="Search by title or author"
-                    onChange={event =>  props.onInputChange(event.target.value)}
+                    onChange={event => props.onInputChange(event.target.value)}
                 />
             </div>
         </div>
