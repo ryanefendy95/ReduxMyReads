@@ -18,12 +18,8 @@ export default class BooksApp extends Component {
             term: ''
         };
         this.handleMoveBook = this.handleMoveBook.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        //todo fix this
-        this.handleSearch = _.debounce((term) => {
-            this.handleSearch(term)
-        }, 300);
+        this.handleSearch = _.debounce(this.handleSearch, 300);
     }
 
     handleMoveBook(book, shelf) {
@@ -39,7 +35,6 @@ export default class BooksApp extends Component {
     }
 
     handleSearch(term) {
-        //todo prevent empty query
         BooksAPI.search(term, 20).then((search) => {
             if (search.error) return;
             this.setState({search});
@@ -65,10 +60,6 @@ export default class BooksApp extends Component {
         const currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
         const wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
         const readAlready = this.state.books.filter(book => book.shelf === 'read');
-        // const search = this.state.books.filter(book => book.shelf === 'none');
-        const bookSearch = _.debounce((term) => {
-            this.handleSearch(term)
-        }, 300);
 
         return (
             <BrowserRouter>
@@ -88,7 +79,7 @@ export default class BooksApp extends Component {
                     <Route exact path="/search" render={() => (
                         <div className="search-books">
                             <SearchBar
-                                onSearch={bookSearch}
+                                onSearch={(term) => this.handleSearch(term)}
                                 term={this.state.term}
                                 onInputChange={this.handleInputChange}
                             />
