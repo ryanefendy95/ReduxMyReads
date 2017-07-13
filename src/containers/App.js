@@ -27,6 +27,10 @@ export default class BooksApp extends Component {
                     books: state.books.map(b => {
                         if (b.id === book.id) b.shelf = shelf;
                         return b;
+                    }),
+                    search: state.search.map(b => {
+                        if (b.id === book.id) b.shelf = shelf;
+                        return b;
                     })
                 }))
             )
