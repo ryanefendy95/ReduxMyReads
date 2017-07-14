@@ -11,7 +11,7 @@ import {BrowserRouter, Route} from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchBooks } from '../actions/index'
+import { fetchBooks, fetchSearch } from '../actions/index'
 
 class BooksApp extends Component {
 
@@ -41,29 +41,31 @@ class BooksApp extends Component {
     }
 
     handleSearch(term) {
-        BooksAPI.search(term, 20).then((searchResults) => {
-            if (searchResults.error) return;
+        this.props.fetchSearch(term);
 
-            this.setState(state => {
-                // create a new array called mergedBooks
-                const mergedBooks = searchResults.map(searchResult => {
-
-                    // grab the existing book from your library if it exists
-                    const existingBook = state.books.find(book => book.id === searchResult.id);
-
-                    // overwrite the search result shelf IF book exists
-                    if (existingBook) {
-                        searchResult.shelf = existingBook.shelf
-                    }
-
-                    // add the searchResult, modified or not, to the mergedBooks array
-                    return searchResult
-                });
-
-                // return a state object for setState
-                return { search: mergedBooks };
-            });
-        });
+        // BooksAPI.search(term, 20).then((searchResults) => {
+        //     if (searchResults.error) return;
+        //
+        //     this.setState(state => {
+        //         // create a new array called mergedBooks
+        //         const mergedBooks = searchResults.map(searchResult => {
+        //
+        //             // grab the existing book from your library if it exists
+        //             const existingBook = state.books.find(book => book.id === searchResult.id);
+        //
+        //             // overwrite the search result shelf IF book exists
+        //             if (existingBook) {
+        //                 searchResult.shelf = existingBook.shelf
+        //             }
+        //
+        //             // add the searchResult, modified or not, to the mergedBooks array
+        //             return searchResult
+        //         });
+        //
+        //         // return a state object for setState
+        //         return { search: mergedBooks };
+        //     });
+        // });
     }
 
     handleInputChange(term) {
@@ -110,7 +112,7 @@ class BooksApp extends Component {
                                 onInputChange={this.handleInputChange}
                             />
                             <SearchResult
-                                books={this.state.search}
+                                books={this.props.search}
                                 onMoveBook={this.handleMoveBook}
                             />
                         </div>
@@ -128,13 +130,14 @@ class BooksApp extends Component {
 // assign global state -> local properties in this component
 const mapStateToProps = (state) => {
     return {
-        books: state.books
+        books: state.books,
+        search: state.search
     }
 };
 
 // same as mapStateToProps but for actions/functions
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({fetchBooks}, dispatch);
+    return bindActionCreators({fetchBooks, fetchSearch}, dispatch);
 };
 
 // connect react & redux store, return another function pass in the component/container that needs to be hooked up
