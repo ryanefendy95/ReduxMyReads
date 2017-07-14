@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import './App.css'
+import '../containers/App.css'
 import PropTypes from 'prop-types'
 
 export const SearchBar = (props) => {

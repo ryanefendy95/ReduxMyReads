@@ -4,12 +4,18 @@ import * as BooksAPI from '../BooksAPI'
 import {Title} from '../components/Title'
 import {Search} from '../components/Search'
 import {Content} from '../components/Content'
-import {SearchBar} from './SearchBar'
+import {SearchBar} from '../components/SearchBar'
 import {SearchResult} from '../components/SearchResult'
 import './App.css'
 import {BrowserRouter, Route} from 'react-router-dom'
 
-export default class BooksApp extends Component {
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchBooks } from '../actions/index'
+
+class BooksApp extends Component {
+
+// class BooksApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -70,15 +76,16 @@ export default class BooksApp extends Component {
     };
 
     componentDidMount() {
-        BooksAPI.getAll().then((books) => {
-            this.setState({books});
-        });
+        // BooksAPI.getAll().then((books) => {
+        //     this.setState({books});
+        // });
+        this.props.fetchBooks();
     }
 
     render() {
-        const currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
-        const wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
-        const readAlready = this.state.books.filter(book => book.shelf === 'read');
+        const currentlyReading = this.props.books.filter(book => book.shelf === 'currentlyReading');
+        const wantToRead = this.props.books.filter(book => book.shelf === 'wantToRead');
+        const readAlready = this.props.books.filter(book => book.shelf === 'read');
 
         return (
             <BrowserRouter>
@@ -113,3 +120,22 @@ export default class BooksApp extends Component {
         )
     }
 }
+
+/*
+ tell redux which component need which properties & which actions to dispatch, -> containers
+*/
+
+// assign global state -> local properties in this component
+const mapStateToProps = (state) => {
+    return {
+        books: state.books
+    }
+};
+
+// same as mapStateToProps but for actions/functions
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({fetchBooks}, dispatch);
+};
+
+// connect react & redux store, return another function pass in the component/container that needs to be hooked up
+export default connect(mapStateToProps, mapDispatchToProps)(BooksApp);
