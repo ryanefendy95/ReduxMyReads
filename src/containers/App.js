@@ -129,6 +129,7 @@ class BooksApp extends Component {
 
 // assign global state -> local properties in this component
 const mapStateToProps = (state) => {
+    console.log('mapStateToProps', state);
     return {
         books: state.books,
         search: state.search

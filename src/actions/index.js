@@ -12,6 +12,7 @@ export function fetchBooks() {
 }
 
 export function fetchSearch(term) {
+    // console.log('fetchSearch', term, booksInShelves)
     return {
         type: FETCH_SEARCH,
         payload: BooksAPI.search(term, 20)

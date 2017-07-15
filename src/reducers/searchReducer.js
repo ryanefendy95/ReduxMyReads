@@ -1,7 +1,7 @@
 import {FETCH_SEARCH} from '../actions/index';
 
 export default function (state = [], action) {
-    console.log('inside searchReducer BEFORE', state);
+    console.log('inside searchReducer', state, action);
 
     switch (action.type) {
         case FETCH_SEARCH:
@@ -9,8 +9,5 @@ export default function (state = [], action) {
             return action.payload;
         default:
     }
-
-    console.log('inside searchReducer AFTER', state);
-
     return state;
 }
